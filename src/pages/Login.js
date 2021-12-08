@@ -9,8 +9,7 @@ export default function Login() {
   const { isLoginLoading, hasLoginError, login, isLogged } = useUser();
 
   useEffect(() => {
-    //TODO: CHANGE ROUTE TO DASHBOARD
-    if (isLogged) navigate("/");
+    if (isLogged) navigate("/dashboard");
   }, [isLogged, navigate]);
 
   const handleSubmit = (e) => {

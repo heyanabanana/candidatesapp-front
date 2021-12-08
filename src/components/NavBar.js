@@ -7,7 +7,7 @@ const NavBar = () => {
   const { isLogged, logout } = useUser();
 
   return (
-    <nav className="flex content-between justify-between	 w-auto">
+    <nav className="flex content-between justify-between w-auto">
       <SiteLogo />
       <div>
         {isLogged ? (

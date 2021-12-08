@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
+import UserDashboard from './pages/UserDashboard';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Route path="/" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-
+        <Route path="/dashboard" component={UserDashboard}/>
       </SectionContainer>
     </UserContextProvider>
   );

@@ -11,9 +11,11 @@ export default function Register() {
   const { isRegisterLoading, hasRegisterError, register, isRegister } =
     useUser();
 
+
+    //TODO: AUTOCOMPLETE LOGIN AT REGISTER
+
   useEffect(() => {
-    //TODO: CHANGE ROUTE TO DASHBOARD
-    if (isRegister) navigate("/");
+    if (isRegister) navigate("/login");
   }, [isRegister, navigate]);
 
   const handleSubmit = (e) => {
