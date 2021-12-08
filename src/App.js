@@ -5,6 +5,7 @@ import SectionContainer from "./components/SectionContainer";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
         <Route path="*" component={NotFound} />
         <Route path="/" component={HomePage} />
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+
       </SectionContainer>
     </UserContextProvider>
   );

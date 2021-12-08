@@ -1,20 +1,20 @@
 import {ENDPOINT} from './endpoint'
 
-export default function loginService({email, password}) {
-    return fetch(`${ENDPOINT}/login`, {
+export default function registerService({name, email, password, password_confirmation}) {
+    return fetch(`${ENDPOINT}/register`, {
         method: 'POST',
         headers: {
             "Content-type": "application/json",
             "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({email, password})
+        body: JSON.stringify({name, email, password, password_confirmation})
     })
     .then(res => {
         if(!res.ok) throw new Error('Response is NOT ok')
         return res.json()
     })
     .then(res => {
-        const {token} = res
-        return token
+        const {name} = res
+        return name
     })
 }

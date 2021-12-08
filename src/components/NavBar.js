@@ -11,9 +11,7 @@ const NavBar = () => {
       <SiteLogo />
       <div>
         {isLogged ? (
-          <Link to="/">
             <button onClick={logout}>Logout</button>
-          </Link>
         ) : (
           <>
             <Link to="/login">
