@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route } from "wouter";
+import { UserContextProvider } from "./config/UserContext";
+import NavBar from "./components/NavBar";
+import SectionContainer from "./components/SectionContainer";
+import HomePage from "./pages/HomePage";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContextProvider>
+      <SectionContainer className="App">
+        <NavBar />
+        <Route path="*" component={NotFound} />
+        <Route path="/" component={HomePage} />
+        <Route path="/login" component={Login} />
+      </SectionContainer>
+    </UserContextProvider>
   );
 }
 
