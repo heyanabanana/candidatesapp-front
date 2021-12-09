@@ -7,7 +7,7 @@ export default function StepTwo() {
   const { isLogged, token } = useUser();
   const [skills, setSkills] = useState();
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => login(data);
+  const onSubmit = () => console.log(myValue);
 
   useEffect(() => {
     fetch(`${ENDPOINT}/skills`, {
@@ -25,15 +25,29 @@ export default function StepTwo() {
       .then((response) => {
         const value = response;
         setSkills(value);
-        console.log(value);
       });
   }, []);
+
+  const [myValue, setMyValue] = useState("");
+
   return (
     <div>
-      {skills && skills.map((skill) => <li key={skill.id}>{skill.name}</li>)}
-      Not enought? Add Skills
+      {" "}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="text" placeholder="new skill" />
+        <select onChange={(e) => setMyValue(e.target.value)}
+        defaultValue={myValue}>
+          <option value="DEFAULT" disabled>
+            Choose a skill ...
+          </option>
+          {skills &&
+            skills.map((skill) => (
+              <option key={skill.id} value={skill.id}>
+                {skill.name} 
+              </option>
+            ))}
+        </select>
+        <span style={{ backgroundColor: "yellow" }}>{myValue}</span>
+
         <button>Send</button>
       </form>
     </div>
