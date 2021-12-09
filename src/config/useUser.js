@@ -5,6 +5,8 @@ import registerService from "../services/register";
 
 export default function useUser() {
   const { token, setToken } = useContext(Context);
+  const user = useContext(Context);
+
   const [isRegister, setIsRegister] = useState(false);
   const [state, setState] = useState({ loading: false, error: false });
 
@@ -18,7 +20,7 @@ export default function useUser() {
           setToken(token);
         })
         .catch((err) => {
-          window.sessionStorage.removeItem("token");
+          window.sessionStorage.removeItem("token", "user");
           setState({ loading: false, error: true });
           console.log(err);
         });
@@ -58,6 +60,8 @@ export default function useUser() {
     logout,
     register,
     isRegister,
+    token,
+    user,
     isRegisterLoading: state.loading,
     hasRegisterError: state.error,
   };

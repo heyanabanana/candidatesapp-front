@@ -6,9 +6,11 @@ export function UserContextProvider({ children }) {
   const [token, setToken] = useState(() =>
     window.sessionStorage.getItem("token")
   );
-
+  const user = () => window.sessionStorage.getItem("user");
   return (
-    <Context.Provider value={{ token, setToken }}>{children}</Context.Provider>
+    <Context.Provider value={{ token, setToken, user }}>
+      {children}
+    </Context.Provider>
   );
 }
 

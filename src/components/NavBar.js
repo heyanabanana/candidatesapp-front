@@ -11,7 +11,12 @@ const NavBar = () => {
       <SiteLogo />
       <div>
         {isLogged ? (
+          <>
             <button onClick={logout}>Logout</button>
+            <Link to="/dashboard">
+              <button>Dashboard</button>
+            </Link>
+          </>
         ) : (
           <>
             <Link to="/login">

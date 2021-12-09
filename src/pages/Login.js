@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import useUser from "../config/useUser";
 
 export default function Login() {
@@ -38,6 +38,8 @@ export default function Login() {
           />
 
           <button>Login</button>
+          <p>¿No tienes cuenta?</p>
+          <Link to="/register">Register</Link>
         </form>
       )}
       {hasLoginError && <span>Credentials are invalid</span>}{" "}

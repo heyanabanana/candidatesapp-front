@@ -1,24 +1,25 @@
 import { ENDPOINT } from "./endpoint";
 
-export default function loginService({ email, password }) {
-  return fetch(`${ENDPOINT}/login`, {
+export default function registerService({
+  name,
+  email,
+  phone,
+  password_confirmation,
+}) {
+  return fetch(`${ENDPOINT}/register`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
       "Access-Control-Allow-Origin": "*",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ name, email, phone, password_confirmation }),
   })
     .then((res) => {
       if (!res.ok) throw new Error("Response is NOT ok");
       return res.json();
     })
     .then((res) => {
-      const { token } = res.token;
-      const user = res.user;
-      window.sessionStorage.setItem("user", user.id);
-
-      console.log(user.id);
-      return token;
+      const { name } = res;
+      return name;
     });
 }
