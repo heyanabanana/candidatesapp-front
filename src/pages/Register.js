@@ -1,61 +1,66 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import useUser from "../config/useUser";
+import { useForm } from "react-hook-form";
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password_confirmation, setPasswordConfirmation] = useState("");
+  const { register, errors, handleSubmit, watch } = useForm({});
+
   const [, navigate] = useLocation();
-  const { isRegisterLoading, hasRegisterError, register, isRegister } =
-    useUser();
+  const password = useRef({});
+  password.current = watch("password", "");
 
+  const { isRegisterLoading, hasRegisterError, signIn, isRegister } = useUser();
 
-    //TODO: AUTOCOMPLETE LOGIN AT REGISTER
+  const onSubmit = (data) => signIn(data);
+  console.log(errors);
+
+  //TODO: AUTOCOMPLETE LOGIN AT REGISTER
 
   useEffect(() => {
     if (isRegister) navigate("/login");
   }, [isRegister, navigate]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    register({ name, email, password, password_confirmation });
-  };
 
   return (
     <div className="h-screen flex flex-col justify-center content-center items-center">
       <h1>Register</h1>
       {isRegisterLoading && <span>Checking credentials...</span>}
       {!isRegisterLoading && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <input
+            type="text"
             placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-            required
+            {...register("Name", { required: true, maxLength: 80 })}
           />
 
           <input
+            type="text"
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            required
+            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
           />
+
           <input
             type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            required
+            placeholder="password"
+            {...register("password", {
+              required: true,
+              minLength: {
+                value: 8,
+                message: "Password must have at least 8 characters",
+              },
+            })}
           />
+
           <input
             type="password"
-            placeholder="Confirm Password"
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
-            value={password_confirmation}
-            required
+            placeholder="Confirm password"
+            {...register("password_confirmation", {
+              required: true,
+              validate: (value) =>
+                value === password.current || "The passwords do not match",
+            })}
           />
+
           <button>Register</button>
         </form>
       )}

@@ -28,7 +28,7 @@ export default function useUser() {
     [setToken]
   );
 
-  const register = useCallback(
+  const signIn = useCallback(
     ({ name, email, password, password_confirmation }) => {
       setState({ loading: true, error: false });
       registerService({ name, email, password, password_confirmation })
@@ -58,7 +58,7 @@ export default function useUser() {
     hasLoginError: state.error,
     login,
     logout,
-    register,
+    signIn,
     isRegister,
     token,
     user,

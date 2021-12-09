@@ -14,7 +14,6 @@ export default function UserDashboard() {
     });
   }, [token]);
   const userId = window.sessionStorage.getItem("user");
-  console.log(userId);
 
   return (
     <div className="h-screen flex flex-col justify-center content-center items-center">
@@ -25,6 +24,10 @@ export default function UserDashboard() {
             candidates
               .filter((candidate) => candidate.user_id == userId)
               .map((filteredCandidate) => <li>{filteredCandidate.name}</li>)}
+          Post new candidate:
+          <Link to="/newcandidate">
+            <button>New candidate</button>
+          </Link>
         </div>
       ) : (
         <div>
