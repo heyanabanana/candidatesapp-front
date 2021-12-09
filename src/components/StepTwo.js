@@ -2,12 +2,23 @@ import React, { useEffect, useState } from "react";
 import { ENDPOINT } from "../services/endpoint";
 import useUser from "../config/useUser";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 export default function StepTwo() {
   const { isLogged, token } = useUser();
   const [skills, setSkills] = useState();
-  const { register, handleSubmit } = useForm();
-  const onSubmit = () => console.log(myValue);
+
+  const schema = Yup.object().shape({
+    level: Yup.number().required(),
+  });
+
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data) => console.log(data);
+  const candidateId = window.localStorage.getItem("candidateId");
 
   useEffect(() => {
     fetch(`${ENDPOINT}/skills`, {
@@ -28,28 +39,37 @@ export default function StepTwo() {
       });
   }, []);
 
-  const [myValue, setMyValue] = useState("");
+  const [selectedSkill, setSelectedSkill] = useState("");
+
 
   return (
     <div>
-      {" "}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <select onChange={(e) => setMyValue(e.target.value)}
-        defaultValue={myValue}>
+
+        <select
+          onChange={(e) => setSelectedSkill(e.target.value)}
+          defaultValue={selectedSkill}
+          {...register("skillId")}
+        >
           <option value="DEFAULT" disabled>
             Choose a skill ...
           </option>
           {skills &&
             skills.map((skill) => (
               <option key={skill.id} value={skill.id}>
-                {skill.name} 
+                {skill.name}
               </option>
             ))}
         </select>
-        <span style={{ backgroundColor: "yellow" }}>{myValue}</span>
+        <select {...register("level")}>
+          <option value="1">Junior</option>
+          <option value="2">Semi-Senior</option>
+          <option value="3">Senior</option>
+        </select>
+        <button>Send</button>        
 
-        <button>Send</button>
-      </form>
+      </form>        <span style={{ backgroundColor: "yellow" }}>{candidateId}</span>
+
     </div>
   );
 }
