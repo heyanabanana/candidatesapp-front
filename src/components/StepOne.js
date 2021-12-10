@@ -27,10 +27,10 @@ export default function StepOne() {
     user_id: Yup.number().required(),
   });
 
-  const { register, errors, handleSubmit } = useForm({
+  const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
-  const { isLogged, token } = useUser();
+  const { token } = useUser();
   const [, navigate] = useLocation();
   const userId = window.sessionStorage.getItem("user");
 

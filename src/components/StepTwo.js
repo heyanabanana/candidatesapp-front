@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import useUser from "../config/useUser";
 import { useForm } from "react-hook-form";
