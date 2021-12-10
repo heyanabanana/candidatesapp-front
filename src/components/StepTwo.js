@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { ENDPOINT } from "../services/endpoint";
 import { Link } from "wouter";
+import getSkills from "../services/getSkills";
 
 export default function StepTwo() {
   const { isLogged, token } = useUser();
@@ -52,23 +53,8 @@ export default function StepTwo() {
   const candidateId = window.sessionStorage.getItem("candidateId");
 
   useEffect(() => {
-    fetch(`${ENDPOINT}/skills`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${token}`,
-      },
+    getSkills(token).then((value) => {setSkills(value);
     })
-      .then((response) => {
-        if (!response.ok) throw new Error("Response is NOT ok");
-        return response.json();
-      })
-      .then((response) => {
-        const value = response;
-
-        setSkills(value);
-      });
 
     fetch(`${ENDPOINT}/candidatesfull/${candidateId}`, {
       method: "GET",

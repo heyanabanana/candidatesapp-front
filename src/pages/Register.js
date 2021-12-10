@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import useUser from "../config/useUser";
@@ -75,7 +76,7 @@ export default function Register() {
                 {...register("password_confirmation", {
                   required: true,
                   validate: (value) =>
-                    value === password.current || "The passwords do not match",
+                    value == password.current || "The passwords do not match",
                 })}
               />
               <span className="mt-8 w-24">
