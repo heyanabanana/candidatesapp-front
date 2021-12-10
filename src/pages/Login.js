@@ -19,7 +19,7 @@ export default function Login() {
     <div className=" mt-20 flex flex-col  content-center items-center">
       {isLoginLoading && <span>Checking credentials...</span>}
       {!isLoginLoading && (
-        <div className="mt-20  flex flex-col md:flex-row content-center ">
+        <div className="mt-15  flex flex-col md:flex-row content-center ">
           <img className="w-96 h-96" alt="index" src={Image} />
 
           <div className="flex flex-col items-center content-center w-full max-w-lg px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">

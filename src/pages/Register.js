@@ -23,8 +23,8 @@ export default function Register() {
   }, [isRegister, navigate]);
 
   return (
-    <div className="h-screen flex flex-col justify-center content-center items-center">
-      <div className="mt-20  flex flex-col md:flex-row content-center ">
+    <div className="flex flex-col justify-center content-center items-center">
+      <div className="mt-10  flex flex-col md:flex-row content-center ">
         <img className="w-96 h-96" alt="index" src={Image} />
 
         <div className="flex flex-col items-center content-center w-full max-w-lg px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
@@ -32,11 +32,9 @@ export default function Register() {
             Register
           </h1>
           {isRegisterLoading && (
-            <span className="flex flex-col items-center content-center w-full max-w-lg px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
-              <h2 className="animate-pulse self-center mt-5 mb-6 text-xl font-semibold text-blue sm:text-2xl ">
+              <button className="animate-pulse self-center mt-5 mb-6 text-xl text-blue font-semibold bg-blue sm:text-2xl ">
                 Checking credentials...
-              </h2>
-            </span>
+              </button>
           )}
           {!isRegisterLoading && (
             <form

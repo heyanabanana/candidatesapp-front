@@ -9,8 +9,9 @@ import {
   PhoneIcon,
   MailIcon,
   PaperClipIcon,
-  RssIcon,
-  StatusOnlineIcon,
+  CurrencyDollarIcon,
+  CheckIcon,
+  XIcon,
 } from "@heroicons/react/solid";
 
 export default function UserDashboard() {
@@ -24,10 +25,15 @@ export default function UserDashboard() {
   }, [token]);
   const userId = window.sessionStorage.getItem("user");
 
+  function setLevel (level) {
+    if (level === 1) {return " junior"} else if (level === 2) {return " semi-senior"} else return " senior"
+  }
+
+
   return (
-    <div className="h-screen flex flex-col mt-20 content-center ">
+    <div className="flex flex-col mt-10 content-center ">
       {isLogged ? (
-        <div className="flex flex-col mt-20 ">
+        <div className="flex flex-col ">
           <h1 className="self-center mt-5 mb-6 text-xl font-semibold text-blue sm:text-2xl text-center">
             Welcome back, your candidates are:{" "}
           </h1>
@@ -56,6 +62,7 @@ export default function UserDashboard() {
                               <div class="flex flex-1 items-center justify-between	 pb-2">
                                 <div class="flex font-medium dark:text-white">
                                   <MailIcon className="w-5 h-5 mr-2 fill-current text-blue" />
+                                  {console.log(filteredCandidate)}
 
                                   {filteredCandidate.email}
                                 </div>
@@ -66,38 +73,52 @@ export default function UserDashboard() {
                               </div>
                             </li>
                             <li class="flex flex-row">
-                              <div class="mt-2 flex flex-1 items-center justify-between	 pb-2">
+                              <div class="mt-2 flex flex-1  items-center justify-between	 pb-2">
                                 <div class="flex font-medium dark:text-white">
                                   <PaperClipIcon className="w-5 h-5 mr-2 fill-current text-blue" />
                                   {filteredCandidate.location},{" "}
                                   {filteredCandidate.country}
                                 </div>
-                              </div>
-                            </li>
-                            <li class="flex flex-row">
-                              <div class="mt-2 flex flex-1 items-center justify-between	 pb-2">
                                 <div class="flex font-medium dark:text-white">
-                                  <RssIcon className="w-5 h-5 mr-2 fill-current text-blue" />
-                                  Remote:{" "}
-                                  {filteredCandidate.remote === true ? (
-                                    <p> Yes</p>
-                                  ) : (
-                                    <p> No</p>
-                                  )}
-                                </div>
-                              </div>
-                            </li>
-                            <li class="flex flex-row">
-                              <div class="mt-2 flex flex-1 items-center justify-between	 pb-2">
-                                <div class="flex font-medium dark:text-white">
-                                  <StatusOnlineIcon className="w-5 h-5 mr-2 fill-current text-blue" />
                                   Mobility:{" "}
                                   {filteredCandidate.mobility === true ? (
-                                    <p> Yes</p>
+                                    <CheckIcon className="w-5 h-5 mr-2 fill-current text-blue" />
                                   ) : (
-                                    <p> No</p>
+                                    <XIcon className="w-5 h-5 mr-2 fill-current text-blue" />
                                   )}
                                 </div>
+                                <div class="flex font-medium dark:text-white">
+                                  Remote:{" "}
+                                  {filteredCandidate.remote === true ? (
+                                    <CheckIcon className="w-5 h-5 mr-2 fill-current text-blue" />
+                                  ) : (
+                                    <XIcon className="w-5 h-5 mr-2 fill-current text-blue" />
+                                  )}
+                                </div>
+                              </div>
+                            </li>
+                            <li class="flex flex-row">
+                              <div class="flex mt-2 flex-1 items-center justify-between	 pb-2">
+                                <div class="flex font-medium dark:text-white">
+                                  <CurrencyDollarIcon className="w-5 h-5 mr-2 fill-current text-blue" />
+                                  Salary now:
+                                  {filteredCandidate.salary_now} $
+                                </div>
+                                <div class="flex font-medium dark:text-white">
+                                  <CurrencyDollarIcon className="w-5 h-5 mr-2 fill-current text-blue" />
+                                  Salary desired:
+                                  {filteredCandidate.salary_desired} $
+                                </div>
+                              </div>
+                            </li>
+                            <li class="flex flex-row">
+                              <div class="flex mt-2 flex-1 items-center flex-wrap	 pb-2">
+                                {filteredCandidate.experiences.map((experience) =>
+                                  <span class="inline-block uppercase rounded-min text-white bg-blue px-2 py-1 text-xs font-bold mr-3 rounded-md">
+                                    {experience.skill.name} {setLevel(experience.level)}
+
+                                  </span>
+                                )}
                               </div>
                             </li>
                           </ul>

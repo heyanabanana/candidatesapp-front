@@ -1,7 +1,7 @@
 import { ENDPOINT } from "./endpoint";
 
 export default function getCandidates({ token }) {
-  return fetch(`${ENDPOINT}/candidates`, {
+  return fetch(`${ENDPOINT}/candidatesfull`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
