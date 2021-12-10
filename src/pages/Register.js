@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import Image from "../assets/register.png";
 
 export default function Register() {
-  const { register, errors, handleSubmit, watch } = useForm({});
+  const { register, handleSubmit, watch } = useForm({});
 
   const [, navigate] = useLocation();
   const password = useRef({});

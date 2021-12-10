@@ -1,4 +1,3 @@
-import React from 'react'
 import { ENDPOINT } from "./endpoint";
 
 export default function getCandidateId(candidateId, token) {
