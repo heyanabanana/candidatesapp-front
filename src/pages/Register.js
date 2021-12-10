@@ -14,8 +14,8 @@ export default function Register() {
 
   const { isRegisterLoading, hasRegisterError, signIn, isRegister } = useUser();
 
-  const onSubmit = (data) => signIn(data);
-  console.log(errors);
+  const onSubmit = (data) => {signIn(data);
+  console.log(data);}
 
   //TODO: AUTOCOMPLETE LOGIN AT REGISTER
 
@@ -46,7 +46,7 @@ export default function Register() {
                 className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
                 type="text"
                 placeholder="Name"
-                {...register("Name", { required: true, maxLength: 80 })}
+                {...register("name", { required: true, maxLength: 80 })}
               />
               <input
                 className="mt-4 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"

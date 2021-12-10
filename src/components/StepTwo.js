@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { ENDPOINT } from "../services/endpoint";
 import { Link } from "wouter";
 import getSkills from "../services/getSkills";
+import getCandidateId from '../services/getCandidateId';
 
 export default function StepTwo() {
   const { isLogged, token } = useUser();
@@ -56,24 +57,8 @@ export default function StepTwo() {
     getSkills(token).then((value) => {setSkills(value);
     })
 
-    fetch(`${ENDPOINT}/candidatesfull/${candidateId}`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${token}`,
-      },
+    getCandidateId(token, candidateId).then((value) => {setCandidate(value);
     })
-      .then((response) => {
-        if (!response.ok) throw new Error("Response is NOT ok");
-        return response.json();
-      })
-      .then((response) => {
-        const value = response;
-        console.log(value);
-
-        setCandidate(value);
-      });
 
     fetch(`${ENDPOINT}/experiences/`, {
       method: "GET",
