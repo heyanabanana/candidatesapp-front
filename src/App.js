@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import UserDashboard from "./pages/UserDashboard";
 import StepTwo from "./components/StepTwo";
 import StepOne from "./components/StepOne";
+import CandidateDetail from "./pages/CandidateDetail";
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard" component={UserDashboard} />
-
+        <Route path="/dashboard/:id">
+          {(params) => <CandidateDetail id={params.id} />}
+        </Route>
         <Route path="/newcandidate" component={StepOne} />
         <Route path="/newcandidate/2" component={StepTwo} />
       </SectionContainer>

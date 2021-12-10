@@ -3,11 +3,25 @@ import { useLocation, Link } from "wouter";
 import useUser from "../config/useUser";
 import { useForm } from "react-hook-form";
 import Image from "../assets/login.png";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 export default function Login() {
   const [, navigate] = useLocation();
+  const schema = yup
+    .object({
+      password: yup.string().required("Password is required"),
+      email: yup.string().required().email("Email is invalid"),
+    })
+    .required();
   const { isLoginLoading, hasLoginError, login, isLogged } = useUser();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   useEffect(() => {
     if (isLogged) navigate("/dashboard");
@@ -40,14 +54,20 @@ export default function Login() {
                   pattern: /^\S+@\S+$/i,
                 })}
               />
+              <p className=" text-pink font-semibold">
+                {errors.email && errors.email.message}
+              </p>
               <input
                 className="mt-6 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
                 type="password"
                 placeholder="password"
                 {...register("password", { required: true })}
               />
+              <p className=" text-pink font-semibold">
+                {errors.password && errors.email.password}
+              </p>
               <span className="mt-8 w-24">
-                <button class=" py-2 bg-blue hover:bg-blue-light focus:ring-blue focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                <button className=" py-2 bg-blue hover:bg-blue-light focus:ring-blue focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                   Login
                 </button>
               </span>{" "}
@@ -58,7 +78,9 @@ export default function Login() {
           </div>
         </div>
       )}
-      {hasLoginError && <span>Credentials are invalid</span>}{" "}
+      {hasLoginError && (
+        <p className=" text-pink font-semibold">Credentials are invalid </p>
+      )}
     </div>
   );
 }

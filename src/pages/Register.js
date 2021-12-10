@@ -1,21 +1,42 @@
 /* eslint-disable eqeqeq */
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "wouter";
 import useUser from "../config/useUser";
 import { useForm } from "react-hook-form";
 import Image from "../assets/register.png";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 export default function Register() {
-  const { register, handleSubmit, watch } = useForm({});
+  const schema = yup
+    .object({
+      name: yup.string().required("Name is required"),
+      email: yup.string().required().email("Email is invalid"),
+      password: yup
+        .string()
+        .required()
+        .min(5, "Password must have at least 5 characters"),
+      password_confirmation: yup
+        .string()
+        .oneOf([yup.ref("password"), null], "Passwords must match"),
+    })
+    .required();
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const [, navigate] = useLocation();
-  const password = useRef({});
-  password.current = watch("password", "");
 
   const { isRegisterLoading, hasRegisterError, signIn, isRegister } = useUser();
 
-  const onSubmit = (data) => {signIn(data);
-  console.log(data);}
+  const onSubmit = (data) => {
+    signIn(data);
+    console.log(data);
+  };
 
   //TODO: AUTOCOMPLETE LOGIN AT REGISTER
 
@@ -33,9 +54,9 @@ export default function Register() {
             Register
           </h1>
           {isRegisterLoading && (
-              <button className="animate-pulse self-center mt-5 mb-6 text-xl text-blue font-semibold bg-blue sm:text-2xl ">
-                Checking credentials...
-              </button>
+            <button className="animate-pulse self-center mt-5 mb-6 text-xl text-blue font-semibold bg-blue sm:text-2xl ">
+              Checking credentials...
+            </button>
           )}
           {!isRegisterLoading && (
             <form
@@ -48,37 +69,41 @@ export default function Register() {
                 placeholder="Name"
                 {...register("name", { required: true, maxLength: 80 })}
               />
+              <p className=" text-pink font-semibold">
+                {errors.name && errors.name.message}
+              </p>
+
               <input
                 className="mt-4 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
                 type="text"
                 placeholder="Email"
-                {...register("email", {
-                  required: true,
-                  pattern: /^\S+@\S+$/i,
-                })}
+                {...register("email")}
               />
+              <p className=" text-pink font-semibold">
+                {errors.email && errors.email.message}
+              </p>
+
               <input
                 className="mt-4 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
                 type="password"
                 placeholder="password"
-                {...register("password", {
-                  required: true,
-                  minLength: {
-                    value: 8,
-                    message: "Password must have at least 8 characters",
-                  },
-                })}
+                {...register("password")}
               />
+              <p className=" text-pink font-semibold">
+                {errors.password && errors.password.message}
+              </p>
+
               <input
                 className="mt-4 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
                 type="password"
                 placeholder="Confirm password"
-                {...register("password_confirmation", {
-                  required: true,
-                  validate: (value) =>
-                    value == password.current || "The passwords do not match",
-                })}
+                {...register("password_confirmation")}
               />
+              <p className=" text-pink font-semibold">
+                {errors.password_confirmation &&
+                  errors.password_confirmation.message}
+              </p>
+
               <span className="mt-8 w-24">
                 <button class=" py-2 bg-blue hover:bg-blue-light focus:ring-blue focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                   Register

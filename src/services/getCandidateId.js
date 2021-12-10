@@ -1,6 +1,6 @@
 import { ENDPOINT } from "./endpoint";
 
-export default function getCandidateId(candidateId, token) {
+export default function getCandidateId( token, candidateId ) {
     fetch(`${ENDPOINT}/candidatesfull/${candidateId}`, {
         method: "GET",
         headers: {
@@ -13,9 +13,5 @@ export default function getCandidateId(candidateId, token) {
           if (!response.ok) throw new Error("Response is NOT ok");
           return response.json();
         })
-        .then((response) => {
-          const value = response;
-          console.log(value);
-  
-        });
+
 }
