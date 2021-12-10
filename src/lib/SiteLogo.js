@@ -1,12 +1,15 @@
-import { FaLightbulb } from 'react-icons/fa'
+import { FaLightbulb } from "react-icons/fa";
 import { Link } from "wouter";
 
 const siteLogo = () => {
-return (
+  return (
     <Link to="/">
-    <FaLightbulb className="fill-current text-black " size={26}/> 
+      <FaLightbulb
+        className="fill-current text-blue hover:text-blue-light"
+        size={28}
+      />
     </Link>
-)
-}
+  );
+};
 
-export default siteLogo
+export default siteLogo;

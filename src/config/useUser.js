@@ -2,10 +2,12 @@ import Context from "./UserContext";
 import { useCallback, useContext, useState } from "react";
 import loginService from "../services/login";
 import registerService from "../services/register";
+import { useLocation } from "wouter";
 
 export default function useUser() {
   const { token, setToken } = useContext(Context);
   const user = useContext(Context);
+  const [, navigate] = useLocation();
 
   const [isRegister, setIsRegister] = useState(false);
   const [state, setState] = useState({ loading: false, error: false });
@@ -50,7 +52,8 @@ export default function useUser() {
   const logout = useCallback(() => {
     window.sessionStorage.removeItem("token");
     setToken(null);
-  }, [setToken]);
+    navigate("/");
+  }, [navigate, setToken]);
 
   return {
     isLogged: Boolean(token),
