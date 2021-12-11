@@ -60,6 +60,7 @@ export default function NewCandidate() {
         return candidate;
       })
       navigate("/dashboard")
+      window.location.reload()
   };
 
   return (

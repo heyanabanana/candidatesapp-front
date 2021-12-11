@@ -77,6 +77,8 @@ export default function EditCandidate(params) {
         return candidate;
       })
       navigate("/dashboard")
+      window.location.reload()
+
   };
 
   return (
@@ -84,7 +86,7 @@ export default function EditCandidate(params) {
       <div className="mt-10  flex flex-col md:flex-row content-center ">
         <div className="flex flex-col items-center content-center w-full max-w-lg px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
           <h1 className="self-center mt-3 mb-6 text-xl font-semibold text-blue sm:text-2xl ">
-            New Candidate
+            Edit Candidate
           </h1>
           {candidate && (
             <form

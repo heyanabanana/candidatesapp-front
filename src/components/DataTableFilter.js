@@ -13,16 +13,15 @@ import useUser from "../config/useUser";
 import { Link } from "wouter";
 import { ENDPOINT } from "../services/endpoint";
 
-
 const DataTableFilter = () => {
   const [selectedProduct5, setSelectedProduct5] = useState("");
 
-  const idDelete = selectedProduct5.id
-
+  const idDelete = selectedProduct5 && selectedProduct5.id;
+console.log(idDelete);
   const { token } = useUser();
   const [candidates, setCandidates] = useState();
   const [globalFilterValue2, setGlobalFilterValue2] = useState("");
-  const user = sessionStorage.getItem('user')
+  const user = sessionStorage.getItem("user");
   const [filters2, setFilters2] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -39,28 +38,26 @@ const DataTableFilter = () => {
     getCandidates({ token }).then((value) => {
       setCandidates(value);
     });
-
   }, [token]);
 
+  const filteredCandidates =
+    candidates && candidates.filter((candidate) => candidate.user_id == user);
 
-  const filteredCandidates =candidates && candidates.filter((candidate) => candidate.user_id == user)
-
-
-  async function deleteCandidate () {
-
-    await fetch(`${ENDPOINT}/candidates/${idDelete}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        Authorization: `Bearer ${token}`,
-        "Accept":"*/*"
+   function deleteCandidate() {
+     fetch(
+      `${ENDPOINT}/candidates/${idDelete}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+          Accept: "*/*",
+        },
       },
-    },
-    await window.location.reload(false))
-
+      window.location.reload()
+    );
   }
-
 
   function setLevel(level) {
     if (level === 1) {
@@ -114,14 +111,12 @@ const DataTableFilter = () => {
 
   const idBodyTemplate = (rowData) => {
     return (
-        <Link to={`/editcandidate/${rowData.id}`} params={rowData.id}>
+      <Link to={`/editcandidate/${rowData.id}`} params={rowData.id}>
         <Button
           icon="pi pi-pencil"
           className="p-button-rounded p-button-text p-button-plain"
         />
-        </Link>
-        
-      
+      </Link>
     );
   };
 
@@ -129,8 +124,8 @@ const DataTableFilter = () => {
     return (
       <>
         <Link to={`/newexperience/${rowData.id}`} params={rowData.id}>
-        <Button icon="pi pi-plus" className="p-button-rounded p-button-sm" />
-</Link>
+          <Button icon="pi pi-plus" className="p-button-rounded p-button-sm" />
+        </Link>
       </>
     );
   };
@@ -158,21 +153,34 @@ const DataTableFilter = () => {
       />
     );
   };
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
   return (
     <>
-                    <span className="p-buttonset">
-
-      <Link to="/newcandidate">
+      <span className="p-buttonset xl:px-10 text-xs mt-5	">
+        <Link to="/newcandidate">
+          <Button
+            className="p-button-sm"
+            label="Add candidate"
+            icon="pi pi-plus-circle"
+          />
+        </Link>
         <Button
-          className="p-button-sm"
-          label="Add candidate"
-          icon="pi pi-plus-circle"
+          className="p-button-sm ml-1"
+          label="Delete selected"
+          icon="pi pi-trash"
+          onClick={deleteCandidate}
         />
-      </Link>
-      <Button className="p-button-sm ml-1"
- label="Delete selected" icon="pi pi-trash" onClick={deleteCandidate} />
-                </span>
+         <Button
+          className="p-button-sm ml-1"
+          label="Reload"
+          icon="pi pi-history
+          "
+          onClick={refreshPage}
+        />
+      </span>
 
       <div className="xl:px-10 datatable-filter-demo text-xs mt-5	">
         <DataTable
@@ -269,7 +277,7 @@ const DataTableFilter = () => {
             style={{ minWidth: "12rem" }}
             body={experienceBodyTemplate}
           />
-                    <Column
+          <Column
             field="id"
             headerStyle={{ width: "3em" }}
             style={{ minWidth: "3rem", color: "#556EE6" }}
