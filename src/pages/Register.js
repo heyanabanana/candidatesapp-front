@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import Image from "../assets/register.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { InputText } from "primereact/inputtext";
 
 export default function Register() {
   const schema = yup
@@ -63,46 +64,53 @@ export default function Register() {
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col items-center "
             >
-              <input
-                className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
-                type="text"
-                placeholder="Name"
-                {...register("name", { required: true, maxLength: 80 })}
-              />
-              <p className=" text-pink font-semibold">
+              <span className="p-float-label mt-8">
+                <InputText
+                  className="w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
+                  type="text"
+                  {...register("name")}
+                />
+                <label htmlFor="name">Name</label>
+              </span>
+              <small id="username2-help" className="p-error p-d-block">
                 {errors.name && errors.name.message}
-              </p>
+              </small>
 
-              <input
-                className="mt-4 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
-                type="text"
-                placeholder="Email"
-                {...register("email")}
-              />
-              <p className=" text-pink font-semibold">
+              <span className="p-float-label mt-10">
+                <InputText
+                  className="w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
+                  type="text"
+                  {...register("email")}
+                />
+                <label htmlFor="email">Email</label>
+              </span>
+              <small id="username2-help" className="p-error p-d-block">
                 {errors.email && errors.email.message}
-              </p>
+              </small>
 
-              <input
-                className="mt-4 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
-                type="password"
-                placeholder="password"
-                {...register("password")}
-              />
-              <p className=" text-pink font-semibold">
+              <span className="p-float-label mt-10">
+                <InputText
+                  className="w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
+                  type="password"
+                  {...register("password")}
+                />
+                <label htmlFor="password">Password</label>
+              </span>
+              <small id="username2-help" className="p-error p-d-block">
                 {errors.password && errors.password.message}
-              </p>
+              </small>
 
-              <input
-                className="mt-4 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
-                type="password"
-                placeholder="Confirm password"
-                {...register("password_confirmation")}
-              />
-              <p className=" text-pink font-semibold">
-                {errors.password_confirmation &&
-                  errors.password_confirmation.message}
-              </p>
+              <span className="p-float-label mt-10">
+                <InputText
+                  className="w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
+                  type="password"
+                  {...register("password_confirmation")}
+                />
+                <label htmlFor="password_confirmation">Confirm password </label>
+              </span>
+              <small id="username2-help" className="p-error p-d-block">
+                {errors.password && errors.password.message}
+              </small>
 
               <span className="mt-8 w-24">
                 <button class=" py-2 bg-blue hover:bg-blue-light focus:ring-blue focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">

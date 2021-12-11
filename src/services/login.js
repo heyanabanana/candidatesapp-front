@@ -17,8 +17,6 @@ export default function loginService({ email, password }) {
       const { token } = res.token;
       const user = res.user;
       window.sessionStorage.setItem("user", user.id);
-
-      console.log(user.id);
       return token;
     });
 }

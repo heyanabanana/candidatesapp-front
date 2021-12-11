@@ -6,11 +6,15 @@ import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
-import UserDashboard from "./pages/UserDashboard";
-import CandidateDetail from "./pages/CandidateDetail";
 import NewCandidate from "./pages/NewCandidate";
 import NewExperience from "./pages/NewExperience";
 import AddSkill from "./pages/AddSkill";
+
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/tailwind-light/theme.css";
+import CandidatesDashboard from "./pages/CandidatesDashboard";
+import EditCandidate from "./pages/EditCandidate";
 
 function App() {
   return (
@@ -21,12 +25,12 @@ function App() {
         <Route path="/" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/dashboard" component={UserDashboard} />
+        <Route path="/dashboard" component={CandidatesDashboard} />
         <Route path="/addskill/:id">
           {(params) => <AddSkill id={params.id} />}
         </Route>
-        <Route path="/dashboard/:id">
-          {(params) => <CandidateDetail id={params.id} />}
+        <Route path="/editcandidate/:id">
+          {(params) => <EditCandidate id={params.id} />}
         </Route>
         <Route path="/newcandidate" component={NewCandidate} />
         <Route path="/newexperience/:id">

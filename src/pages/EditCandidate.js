@@ -55,6 +55,7 @@ export default function EditCandidate(params) {
 
   const { token } = useUser();
   const [, navigate] = useLocation();
+  const userId = window.sessionStorage.getItem("user");
 
   const onSubmit = (data) => {
     console.log(data);
