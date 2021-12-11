@@ -21,11 +21,7 @@ export default function NewExperience(params) {
     candidate_id: Yup.number().required(),
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
 
