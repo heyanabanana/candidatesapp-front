@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/solid";
 import useUser from "../config/useUser";
 import { ENDPOINT } from "../services/endpoint";
+import { Link } from "wouter";
 
 export default function CandidateDetail(params) {
   const candidateId = params.id;
@@ -48,10 +49,10 @@ export default function CandidateDetail(params) {
           <h1 className="text-3xl text-center font-semibold text-blue mb-5">
             {candidate.name}
           </h1>{" "}
-          <ul class="flex flex-col divide divide-y max-w-2xl m-auto">
-            <li class="flex flex-row ">
-              <div class="flex flex-col md:flex-row flex-1 items-center justify-between	 pb-2">
-                <div class="mt-3 flex font-medium dark:text-white">
+          <ul className="flex flex-col divide divide-y max-w-2xl m-auto">
+            <li className="flex flex-row ">
+              <div className="flex flex-col md:flex-row flex-1 items-center justify-between	 pb-2">
+                <div className="mt-3 flex font-medium dark:text-white">
                   <MailIcon className="w-5 h-5 mr-2 fill-current text-blue" />
                   {console.log(candidate)}
 
@@ -86,30 +87,40 @@ export default function CandidateDetail(params) {
                 </div>
               </div>
             </li>
-            <li class="flex flex-row">
-              <div class="flex  flex-col md:flex-row mt-2 flex-1 items-center justify-between	 pb-2">
-                <div class="mt-3 flex font-medium dark:text-white">
+            <li className="flex flex-row">
+              <div className="flex  flex-col md:flex-row mt-2 flex-1 items-center justify-between	 pb-2">
+                <div className="mt-3 flex font-medium dark:text-white">
                   <CurrencyDollarIcon className="w-5 h-5 mr-2 fill-current text-blue" />
                   Salary now:
                   {candidate.salary_now} $
                 </div>
-                <div class="flex mt-3 font-medium dark:text-white">
+                <div className="flex mt-3 font-medium dark:text-white">
                   <CurrencyDollarIcon className="w-5 h-5 mr-2 fill-current text-blue" />
                   Salary desired:
                   {candidate.salary_desired} $
                 </div>
               </div>
             </li>
-            <li class="flex flex-row">
-              <div class="flex mt-2 flex-1 items-center justify-center flex-wrap	 pb-2">
+            <li className="flex flex-row">
+              <div className="flex mt-5 flex-1 items-center justify-center flex-wrap	 pb-2">
                 {candidate.experiences.map((experience) => (
-                  <span class="m-1 inline-block uppercase rounded-min text-white bg-blue px-2 py-1 text-xs font-bold mr-3 rounded-md">
+                  <span className="m-1 inline-block uppercase rounded-min text-white bg-blue px-2 py-1 text-xs font-bold mr-3 rounded-md">
                     {experience.skill.name} {setLevel(experience.level)}
                   </span>
                 ))}
               </div>
             </li>
-          </ul>
+            <Link to={`/newexperience/${candidateId}`} params={candidateId}>
+              <button className="items-center m-1 mt-5 font-md inline-block rounded-min text-white bg-blue px-2 py-1 text-xs font-bold mr-3 rounded-md">
+                Add experience
+              </button>
+            </Link>
+          </ul>{" "}
+          <Link to={`/dashboard/`}>
+            <p className=" text-sm  cursor-pointer text-center font-medium text-blue rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+              Back to dashboard
+            </p>
+          </Link>
         </>
       )}
     </div>

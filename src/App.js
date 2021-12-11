@@ -7,9 +7,10 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import UserDashboard from "./pages/UserDashboard";
-import StepTwo from "./components/StepTwo";
 import CandidateDetail from "./pages/CandidateDetail";
 import NewCandidate from "./pages/NewCandidate";
+import NewExperience from "./pages/NewExperience";
+import AddSkill from "./pages/AddSkill";
 
 function App() {
   return (
@@ -21,11 +22,16 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard" component={UserDashboard} />
+        <Route path="/addskill/:id">
+          {(params) => <AddSkill id={params.id} />}
+        </Route>
         <Route path="/dashboard/:id">
           {(params) => <CandidateDetail id={params.id} />}
         </Route>
         <Route path="/newcandidate" component={NewCandidate} />
-        <Route path="/newcandidate/2" component={StepTwo} />
+        <Route path="/newexperience/:id">
+          {(params) => <NewExperience id={params.id} />}
+        </Route>
       </SectionContainer>
     </UserContextProvider>
   );

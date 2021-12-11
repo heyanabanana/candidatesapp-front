@@ -6,31 +6,29 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { ENDPOINT } from "../services/endpoint";
 import { Link } from "wouter";
-import getSkills from "../services/getSkills";
-import getCandidateId from '../services/getCandidateId';
 
-export default function StepTwo() {
+export default function NewExperience(params) {
+  const candidateId = params.id;
+
   const { isLogged, token } = useUser();
   const [skills, setSkills] = useState();
   const [candidate, setCandidate] = useState();
-  const [experiences, setExperiences] = useState();
 
+  //FORM 1
   const schema = Yup.object().shape({
     level: Yup.number().required(),
     skill_id: Yup.number().required(),
     candidate_id: Yup.number().required(),
   });
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
-  function setLevel(level) {
-    if (level === 1) {
-      return " junior";
-    } else if (level === 2) {
-      return " semi-senior";
-    } else return " senior";
-  }
+
   const onSubmit = (data) => {
     fetch(`${ENDPOINT}/experiences`, {
       method: "POST",
@@ -46,21 +44,22 @@ export default function StepTwo() {
         return res.json();
       })
       .then((res) => {
-        const { experience } = res;
-        return experience;
+        window.location.reload(false);
+        return res;
       });
-    console.log(data);
   };
-  const candidateId = window.sessionStorage.getItem("candidateId");
+
+  function setLevel(level) {
+    if (level === 1) {
+      return " junior";
+    } else if (level === 2) {
+      return " semi-senior";
+    } else return " senior";
+  }
 
   useEffect(() => {
-    getSkills(token).then((value) => {setSkills(value);
-    })
-
-    getCandidateId(token, candidateId).then((value) => {setCandidate(value);
-    })
-
-    fetch(`${ENDPOINT}/experiences/`, {
+    //GET SKILLS
+    fetch(`${ENDPOINT}/skills`, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -74,49 +73,54 @@ export default function StepTwo() {
       })
       .then((response) => {
         const value = response;
+        setSkills(value);
+      });
+    //GET CANDIDATE
 
-        setExperiences(value);
+    fetch(`${ENDPOINT}/candidatesfull/${candidateId}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Response is NOT ok");
+        return response.json();
+      })
+      .then((response) => {
+        const value = response;
+        setCandidate(value);
       });
   }, [token, candidateId]);
-
-  const [selectedSkill, setSelectedSkill] = useState("");
-
+  const [selectedSkill, setSelectedSkill] = useState("DEFAULT");
   return (
     <div className="flex flex-col justify-center items-center">
       {isLogged ? (
-        <div className="mt-20  flex flex-col md:flex-row">
-          <div className="flex flex-col items-center content-center w-full max-w-lg px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+        <div className="mt-20 flex flex-col md:flex-row">
+          <div className="flex flex-col flex-wrap items-center content-center  max-w-lg px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
             <div>
-              <h1 className="self-center mt-5 mb-1 text-xl font-semibold text-blue sm:text-2xl ">
+              <h1 className="self-center mt-5 mb-1 text-xl font-semibold text-blue sm:text-2xl text-center">
                 {candidate && candidate.name}
               </h1>
-              <span>
+              <span className="flex flex-wrap">
                 {candidate &&
                   candidate.experiences.map((experience) => (
-                    <span class="inline-block uppercase rounded-min text-white bg-blue px-2 py-1 text-xs font-bold mr-3 rounded-md">
-                      {experience.skills.name} {setLevel(experience.level)}
+                    <span class="px-2 py-1 m-0.5 uppercase text-xs font-semibold rounded-xl text-white  bg-indigo-500 ">
+                      {experience.skill.name}
+                      {setLevel(experience.level)}
                     </span>
                   ))}
               </span>
-              <span className="flex mb-3">
-                {experiences &&
-                  experiences
-                    .filter(
-                      (experience) => experience.candidate_id == candidateId
-                    )
-                    .map((filteredexperience) => (
-                      <span class="px-2 py-1  text-base rounded-xl text-white  bg-indigo-500 ">
-                        {filteredexperience.skill_id}
-                      </span>
-                    ))}
-              </span>
             </div>
             <form
+              key={1}
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col items-center "
             >
               <select
-                className="block w-36 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                className="block w-36 mt-10 text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
                 onChange={(e) => setSelectedSkill(e.target.value)}
                 defaultValue={selectedSkill}
                 {...register("skill_id")}
@@ -131,6 +135,17 @@ export default function StepTwo() {
                     </option>
                   ))}
               </select>
+              <div className="m-1">
+                <Link to={`/addskill/${candidateId}`} params={candidateId}>
+                  <button
+                    type="button"
+                    className=" text-sm font-medium text-blue rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                  >
+                    Add skill
+                  </button>
+                </Link>
+              </div>
+
               <input
                 type="hidden"
                 value={candidateId}
@@ -145,9 +160,17 @@ export default function StepTwo() {
                 <option value={2}>Semi-Senior</option>
                 <option value={3}>Senior</option>
               </select>
-              <button class="mt-6 py-2 bg-blue hover:bg-blue-light focus:ring-blue focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+              <button className="mt-6 py-2 bg-blue hover:bg-blue-light focus:ring-blue focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                 Send
               </button>
+              <Link to={`/dashboard/${candidateId}`} params={candidateId}>
+                <p
+                  type="button"
+                  className=" text-sm font-medium text-blue rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                >
+                  Back to candidate
+                </p>
+              </Link>
             </form>{" "}
           </div>
         </div>
