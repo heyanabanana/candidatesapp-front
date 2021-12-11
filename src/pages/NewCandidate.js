@@ -6,15 +6,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { ENDPOINT } from "../services/endpoint";
 
-export default function StepOne() {
+export default function NewCandidate() {
   const schema = Yup.object().shape({
-    name: Yup.string().required(),
-    phone: Yup.number().required(),
-    email: Yup.string().required().email("Email is invalid"),
-    salary_now: Yup.number().required(),
-    salary_desired: Yup.number().required(),
-    location: Yup.string().required(),
-    country: Yup.string().required(),
+    name: Yup.string("Name is invalid").required("Name is required"),
+    phone: Yup.number("Phone is invalid").required("Phone is required"),
+    email: Yup.string().required("Email is required").email("Email is invalid"),
+    salary_now: Yup.number().required("Actual salary is required"),
+    salary_desired: Yup.number().required("Desired salary is required"),
+    location: Yup.string("Location is invalid").required(
+      "Location is required"
+    ),
+    country: Yup.string("Country is invalid").required("Country is required"),
     remote: Yup.boolean().required(),
     active: Yup.boolean().required(),
     birthdate: Yup.string()
@@ -27,7 +29,11 @@ export default function StepOne() {
     user_id: Yup.number().required(),
   });
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
   const { token } = useUser();
@@ -51,10 +57,9 @@ export default function StepOne() {
       })
       .then((res) => {
         const { candidate } = res;
-        window.sessionStorage.setItem("candidateId", res.id);
         return candidate;
       });
-    navigate("/newcandidate/2");
+    navigate("/dashboard");
   };
 
   return (
@@ -73,54 +78,74 @@ export default function StepOne() {
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="text"
               placeholder="Name"
-              {...register("name", { required: true, maxLength: 80 })}
+              {...register("name")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.name && errors.name.message}
+            </p>
             <input
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="text"
               placeholder="Email"
-              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+              {...register("email")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.email && errors.email.message}
+            </p>
             <input
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="tel"
               placeholder="Mobile number"
-              {...register("phone", {
-                required: true,
-                minLength: 6,
-                maxLength: 12,
-              })}
+              {...register("phone")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.phone && errors.phone.message}
+            </p>
             <input
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="number"
-              placeholder="salary now"
-              {...register("salary_now", { maxLength: 20 })}
+              placeholder="Actual salary"
+              {...register("salary_now")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.salary_now && errors.salary_now.message}
+            </p>
             <input
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="number"
-              placeholder="salary desired"
-              {...register("salary_desired", { maxLength: 20 })}
+              placeholder="Desired salary"
+              {...register("salary_desired")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.salary_desired && errors.salary_desired.message}
+            </p>
             <input
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="text"
               placeholder="Location"
-              {...register("location", { required: true, maxLength: 80 })}
+              {...register("location")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.location && errors.location}
+            </p>
             <input
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="date"
               placeholder="birthdate"
-              {...register("birthdate", { required: true })}
+              {...register("birthdate")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.birthdate && errors.birthdate.message}
+            </p>
             <input
               className="mt-2 w-80 rounded-md items-center p-2 px-4 border border-gray-300 text-black shadow-sm text-md"
               type="text"
               placeholder="Country"
-              {...register("country", { required: true, maxLength: 80 })}
+              {...register("country")}
             />
+            <p className=" text-pink font-semibold">
+              {errors.country && errors.salary_now.message}
+            </p>
             <span className="flex">
               <span className="flex flex-col m-2 items-center">
                 <label className="text-blue font-semibold mt-3" for="remote">
@@ -128,22 +153,22 @@ export default function StepOne() {
                 </label>
                 <select
                   className="block w-fit text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  {...register("remote", { required: true })}
+                  {...register("remote")}
                 >
-                  <option value={true}>true</option>
-                  <option value={false}>false</option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </select>
               </span>{" "}
               <span className="flex flex-col m-2 items-center">
                 <label className="text-blue font-semibold mt-3" for="remote">
                   Active
-                </label>{" "}
+                </label>
                 <select
                   className="block w-fit text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  {...register("active", { required: true })}
+                  {...register("active")}
                 >
-                  <option value={true}>true</option>
-                  <option value={false}>false</option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </select>
               </span>
               <span className="flex flex-col m-2 items-center">
@@ -152,10 +177,10 @@ export default function StepOne() {
                 </label>{" "}
                 <select
                   className="block w-fit text-gray-700 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                  {...register("mobility", { required: true })}
+                  {...register("mobility")}
                 >
-                  <option value={true}>true</option>
-                  <option value={false}>false</option>
+                  <option value={true}>Yes</option>
+                  <option value={false}>No</option>
                 </select>
               </span>
             </span>
