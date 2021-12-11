@@ -43,6 +43,7 @@ export default function NewExperience(params) {
         window.location.reload(false);
         return res;
       });
+      window.location.reload(true);
   };
 
   function setLevel(level) {
@@ -159,13 +160,13 @@ export default function NewExperience(params) {
               <button className="mt-6 py-2 bg-blue hover:bg-blue-light focus:ring-blue focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                 Send
               </button>
-              <Link to={`/dashboard/${candidateId}`} params={candidateId}>
-                <p
+              <Link to={`/dashboard/`} className="cursor-pointer">
+                <button
                   type="button"
-                  className=" text-sm font-medium text-blue rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                  className="cursor-pointer text-sm font-medium text-blue rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                 >
-                  Back to candidate
-                </p>
+                  Back to dashboard
+                </button>
               </Link>
             </form>{" "}
           </div>
