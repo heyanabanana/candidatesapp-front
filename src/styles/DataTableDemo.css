@@ -1,11 +1,13 @@
 /* DataTableDemo.css */
-
+.datatable-filter-demo {
+  text-align: center;
+}
 .datatable-filter-demo .p-paginator .p-paginator-current {
   margin-left: auto;
 }
 .datatable-filter-demo .p-progressbar {
   height: 0.5rem;
-  background-color: #d8dadc;
+  background-color: #8d8d8d;
 }
 .datatable-filter-demo .p-progressbar .p-progressbar-value {
   background-color: #607d8b;
