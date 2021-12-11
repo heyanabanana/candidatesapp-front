@@ -4,7 +4,6 @@ import { Link } from "wouter";
 import useUser from "../config/useUser";
 import getCandidates from "../services/getCandidates";
 import { ChevronRightIcon, RefreshIcon } from "@heroicons/react/solid";
-
 export default function UserDashboard() {
   const { isLogged, token } = useUser();
   const [candidates, setCandidates] = useState();

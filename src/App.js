@@ -12,6 +12,11 @@ import NewCandidate from "./pages/NewCandidate";
 import NewExperience from "./pages/NewExperience";
 import AddSkill from "./pages/AddSkill";
 
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/tailwind-light/theme.css";
+import CandidatesDashboard from "./pages/CandidatesDashboard";
+
 function App() {
   return (
     <UserContextProvider>
@@ -21,7 +26,7 @@ function App() {
         <Route path="/" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/dashboard" component={UserDashboard} />
+        <Route path="/dashboard" component={CandidatesDashboard} />
         <Route path="/addskill/:id">
           {(params) => <AddSkill id={params.id} />}
         </Route>
